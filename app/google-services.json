@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "541947480479",
+    "firebase_url": "https://calldilly.firebaseio.com",
+    "project_id": "calldilly",
+    "storage_bucket": "calldilly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541947480479:android:4e39304c485b306c",
+        "android_client_info": {
+          "package_name": "anil.appli.call.twilio.calldilly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541947480479-qptss7dntpfn6anbkc6gjes64gnpds9k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "anil.appli.call.twilio.calldilly",
+            "certificate_hash": "3453be9ae7c1533647f267f9adcba44bd81f895f"
+          }
+        },
+        {
+          "client_id": "541947480479-l2httvmsivt9l0rkeb9if59uk97fvmvf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPc2kQCylvNV57vhXQdP6Qal4etHXaR3E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541947480479-l2httvmsivt9l0rkeb9if59uk97fvmvf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
