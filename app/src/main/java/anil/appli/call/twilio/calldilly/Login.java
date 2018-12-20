@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -35,9 +35,12 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import anil.appli.call.twilio.calldilly.comm.Common;
+import anil.appli.call.twilio.calldilly.message.MessageManager;
+import anil.appli.call.twilio.calldilly.message.MessageType;
+import anil.appli.call.twilio.calldilly.pojo.UserPOJO;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class Login extends AppCompatActivity implements
         View.OnClickListener,
@@ -45,6 +48,10 @@ public class Login extends AppCompatActivity implements
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
+    @BindView(R.id.editTextEmail)
+    EditText editTextEmail;
+    @BindView(R.id.editTextPassword)
+    EditText editTextPassword;
 
     private GoogleApiClient mGoogleApiClient;
     private SignInButton btnSignIn;
@@ -53,10 +60,7 @@ public class Login extends AppCompatActivity implements
 //    ImageView gmailLogin;
     @BindView(R.id.facebooklogin)
     LoginButton facebooklogin;
-    @BindView(R.id.textView4)
-    TextView textView4;
-    @BindView(R.id.editText2)
-    EditText editText2;
+
     @BindView(R.id.textView5)
     TextView textView5;
     @BindView(R.id.submitLogin)
@@ -123,7 +127,63 @@ public class Login extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+
+        submitLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isValidate()) {
+                    UserPOJO userPOJO = new UserPOJO();
+                    userPOJO.setEmail(editTextEmail.getText().toString());
+                    userPOJO.setPassword(editTextPassword.getText().toString());
+                    ReqLogin reqLogin = new ReqLogin();
+                    reqLogin.execute(MessageType.POST, Common.LoginURL, userPOJO);
+                }
+            }
+        });
+
+
     }
+
+    class ReqLogin extends MessageManager {
+        @Override
+        public void onPostExecute(String result) {
+            System.out.println(result);
+            if (result == null) {
+                finish();
+            } else {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String message = jsonObject.get("message").toString();
+                    String sucees = jsonObject.get("success").toString();
+                    if (sucees == "1") {
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Login.this, message, Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception c) {
+                    System.out.println(c);
+                }
+
+            }
+        }
+    }
+
+
+    public boolean isValidate() {
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
+        if (email.isEmpty()) {
+            editTextEmail.setError("Please enter your email address");
+            return false;
+        }
+        if (password.isEmpty()) {
+            editTextPassword.setError("Please enter your Password");
+            return false;
+        }
+        return true;
+    }
+
 
 
     private void signIn() {
