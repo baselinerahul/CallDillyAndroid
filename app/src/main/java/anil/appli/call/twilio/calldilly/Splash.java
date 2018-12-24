@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import anil.appli.call.twilio.calldilly.call.VoiceActivity;
+
 public class Splash extends AppCompatActivity {
 
     // Splash screen timer
@@ -24,7 +26,7 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent i = new Intent(Splash.this, Login.class);
+                Intent i = new Intent(Splash.this, VoiceActivity.class);
                 startActivity(i);
                 finish();
             }

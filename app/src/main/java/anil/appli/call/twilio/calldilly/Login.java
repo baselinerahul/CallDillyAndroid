@@ -1,9 +1,12 @@
 package anil.appli.call.twilio.calldilly;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +36,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import anil.appli.call.twilio.calldilly.comm.Common;
 import anil.appli.call.twilio.calldilly.message.MessageManager;
@@ -56,7 +61,7 @@ public class Login extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private SignInButton btnSignIn;
 
-    //    @BindView(R.id.gmailLogin)
+
 //    ImageView gmailLogin;
     @BindView(R.id.facebooklogin)
     LoginButton facebooklogin;
@@ -140,9 +145,60 @@ public class Login extends AppCompatActivity implements
                 }
             }
         });
-
+        //  AccessContact();
 
     }
+
+//    private void AccessContact()
+//    {
+//        List<String> permissionsNeeded = new ArrayList<String>();
+//        final List<String> permissionsList = new ArrayList<String>();
+//        if (!addPermission(permissionsList, android.Manifest.permission.READ_CONTACTS))
+//            permissionsNeeded.add("Read Contacts");
+//        if (!addPermission(permissionsList, android.Manifest.permission.WRITE_CONTACTS))
+//            permissionsNeeded.add("Write Contacts");
+//        if (permissionsList.size() > 0) {
+//            if (permissionsNeeded.size() > 0) {
+//                String message = "You need to grant access to " + permissionsNeeded.get(0);
+//                for (int i = 1; i < permissionsNeeded.size(); i++)
+//                    message = message + ", " + permissionsNeeded.get(i);
+//                showMessageOKCancel(message,
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+//                                        REQUEST_MULTIPLE_PERMISSIONS);
+//                            }
+//                        });
+//                return;
+//            }
+//            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+//                    REQUEST_MULTIPLE_PERMISSIONS);
+//
+//            return;
+//        }
+//
+//    }
+
+//    private boolean addPermission(List<String> permissionsList, String permission) {
+//        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+//            permissionsList.add(permission);
+//
+//            if (!shouldShowRequestPermissionRationale(permission))
+//                return false;
+//        }
+//        return true;
+//    }
+//
+//    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+//        new AlertDialog.Builder(Login.this)
+//                .setMessage(message)
+//                .setPositiveButton("OK", okListener)
+//                .setNegativeButton("Cancel", null)
+//                .create()
+//                .show();
+//    }
+
 
     class ReqLogin extends MessageManager {
         @Override
