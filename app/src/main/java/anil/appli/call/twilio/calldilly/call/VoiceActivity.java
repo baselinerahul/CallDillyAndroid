@@ -35,15 +35,17 @@ import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.EditText;
 
+import com.twilio.voice.CallInvite;
+
+import com.twilio.voice.Voice;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
-import com.twilio.voice.CallInvite;
 import com.twilio.voice.RegistrationException;
 import com.twilio.voice.RegistrationListener;
-import com.twilio.voice.Voice;
 
 import java.util.HashMap;
 
