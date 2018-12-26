@@ -114,7 +114,6 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                                 .setContentIntent(pendingIntent)
                                 .setGroup("test_app_notification")
                                 .setColor(Color.rgb(214, 10, 37));
-
                 notificationManager.notify(notificationId, notificationBuilder.build());
             }
         } else {

@@ -30,5 +30,4 @@ public class VoiceFirebaseInstanceIDService extends FirebaseInstanceIdService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
     // [END refresh_token]
-
 }

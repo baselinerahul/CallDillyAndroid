@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +33,12 @@ import java.util.List;
 
 import anil.appli.call.twilio.calldilly.AddContact;
 import anil.appli.call.twilio.calldilly.R;
+import anil.appli.call.twilio.calldilly.call.VoiceActivity;
 import anil.appli.call.twilio.calldilly.pojo.ContactModel;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static anil.appli.call.twilio.calldilly.comm.Common.callNumber;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -43,11 +46,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class FirstFragment extends Fragment {
 
     ArrayList<ContactModel> StoreContacts;
-    Cursor cursor;
-    String name, phonenumber;
+
     RecyclerView list;
     private DishAdapter dAdapter;
-    int INSERT_CONTACT_REQUEST = 2;
 
     @SuppressLint("ValidFragment")
     public FirstFragment(Context context) {
@@ -87,7 +88,6 @@ public class FirstFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         initViews();
         return view;
     }
@@ -99,10 +99,7 @@ public class FirstFragment extends Fragment {
         // list.setItemAnimator(new DefaultItemAnimator());
         list.setAdapter(dAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         list.setLayoutManager(mLayoutManager);
-
-
     }
 
     class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder> {
@@ -112,11 +109,12 @@ public class FirstFragment extends Fragment {
 
         public class DishViewHolder extends RecyclerView.ViewHolder {
             public TextView tet1_old, tet2_old;
-
+            ImageView call;
             public DishViewHolder(View view) {
                 super(view);
                 tet1_old = (TextView) view.findViewById(R.id.contactName);
                 tet2_old = (TextView) view.findViewById(R.id.contactNumber);
+                call = (ImageView) view.findViewById(R.id.callOnThis);
             }
         }
 
@@ -144,7 +142,14 @@ public class FirstFragment extends Fragment {
             final ContactModel dishPOJO = dishList.get(position);
             holder.tet1_old.setText(dishPOJO.getName());
             holder.tet2_old.setText(dishPOJO.getNumber());
-
+            holder.call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), VoiceActivity.class);
+                    callNumber = dishPOJO.getNumber();
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override

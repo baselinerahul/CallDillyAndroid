@@ -51,6 +51,8 @@ import java.util.HashMap;
 
 import anil.appli.call.twilio.calldilly.R;
 
+import static anil.appli.call.twilio.calldilly.comm.Common.callNumber;
+
 public class VoiceActivity extends AppCompatActivity {
 
     private static final String TAG = "VoiceActivity";
@@ -104,57 +106,110 @@ public class VoiceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+        if (callNumber.isEmpty()) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // These flags ensure that the activity can be launched when the screen is locked.
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            coordinatorLayout = findViewById(R.id.coordinator_layout);
+            callActionFab = findViewById(R.id.call_action_fab);
+            hangupActionFab = findViewById(R.id.hangup_action_fab);
+            muteActionFab = findViewById(R.id.mute_action_fab);
+            chronometer = findViewById(R.id.chronometer);
 
-        coordinatorLayout = findViewById(R.id.coordinator_layout);
-        callActionFab = findViewById(R.id.call_action_fab);
-        hangupActionFab = findViewById(R.id.hangup_action_fab);
-        muteActionFab = findViewById(R.id.mute_action_fab);
-        chronometer = findViewById(R.id.chronometer);
+            callActionFab.setOnClickListener(callActionFabClickListener());
+            hangupActionFab.setOnClickListener(hangupActionFabClickListener());
+            muteActionFab.setOnClickListener(muteActionFabClickListener());
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            soundPoolManager = SoundPoolManager.getInstance(this);
+            /*
+             * Setup the broadcast receiver to be notified of FCM Token updates
+             * or incoming call invite in this Activity.
+             */
+            voiceBroadcastReceiver = new VoiceBroadcastReceiver();
+            registerReceiver();
+            /*
+             * Needed for setting/abandoning audio focus during a call
+             */
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setSpeakerphoneOn(true);
+            /*
+             * Enable changing the volume using the up/down keys during a conversation
+             */
+            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+            /*
+             * Setup the UI
+             */
+            resetUI();
 
-        callActionFab.setOnClickListener(callActionFabClickListener());
-        hangupActionFab.setOnClickListener(hangupActionFabClickListener());
-        muteActionFab.setOnClickListener(muteActionFabClickListener());
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        soundPoolManager = SoundPoolManager.getInstance(this);
-        /*
-         * Setup the broadcast receiver to be notified of FCM Token updates
-         * or incoming call invite in this Activity.
-         */
-        voiceBroadcastReceiver = new VoiceBroadcastReceiver();
-        registerReceiver();
-        /*
-         * Needed for setting/abandoning audio focus during a call
-         */
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setSpeakerphoneOn(true);
-        /*
-         * Enable changing the volume using the up/down keys during a conversation
-         */
-        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-        /*
-         * Setup the UI
-         */
-        resetUI();
+            /*
+             * Displays a call dialog if the intent contains a call invite
+             */
+            handleIncomingCallIntent(getIntent());
 
-        /*
-         * Displays a call dialog if the intent contains a call invite
-         */
-        handleIncomingCallIntent(getIntent());
-
-        /*
-         * Ensure the microphone permission is enabled
-         */
-        if (!checkPermissionForMicrophone()) {
-            requestPermissionForMicrophone();
+            /*
+             * Ensure the microphone permission is enabled
+             */
+            if (!checkPermissionForMicrophone()) {
+                requestPermissionForMicrophone();
+            } else {
+                retrieveAccessToken();
+            }
         } else {
-            retrieveAccessToken();
+            // These flags ensure that the activity can be launched when the screen is locked.
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+            coordinatorLayout = findViewById(R.id.coordinator_layout);
+            callActionFab = findViewById(R.id.call_action_fab);
+            hangupActionFab = findViewById(R.id.hangup_action_fab);
+            muteActionFab = findViewById(R.id.mute_action_fab);
+            chronometer = findViewById(R.id.chronometer);
+
+            callActionFab.setOnClickListener(callActionFabClickListener());
+            hangupActionFab.setOnClickListener(hangupActionFabClickListener());
+            muteActionFab.setOnClickListener(muteActionFabClickListener());
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            soundPoolManager = SoundPoolManager.getInstance(this);
+            /*
+             * Setup the broadcast receiver to be notified of FCM Token updates
+             * or incoming call invite in this Activity.
+             */
+            voiceBroadcastReceiver = new VoiceBroadcastReceiver();
+            registerReceiver();
+            /*
+             * Needed for setting/abandoning audio focus during a call
+             */
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setSpeakerphoneOn(true);
+            /*
+             * Enable changing the volume using the up/down keys during a conversation
+             */
+            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+            /*
+             * Setup the UI
+             */
+            resetUI();
+
+            /*
+             * Displays a call dialog if the intent contains a call invite
+             */
+            handleIncomingCallIntent(getIntent());
+
+            /*
+             * Ensure the microphone permission is enabled
+             */
+            if (!checkPermissionForMicrophone()) {
+                requestPermissionForMicrophone();
+            } else {
+                retrieveAccessToken();
+            }
         }
+
+
     }
 
     @Override
