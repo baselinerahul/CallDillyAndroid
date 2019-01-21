@@ -67,6 +67,8 @@ dependencies {
     compile 'com.twilio:voice-android:2.0.9'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     implementation 'com.koushikdutta.ion:ion:2.1.8'
+    compile 'com.braintreepayments:card-form:3.3.0'
+    implementation 'com.stripe:stripe-android:6.1.2'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
 }
 apply plugin: 'com.google.gms.google-services'

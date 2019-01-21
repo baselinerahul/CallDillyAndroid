@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 -keep class com.twilio.** { *; }
 # Twilio Client
-
+-keep class com.stripe.android.** { *; }
 
 # Apache HttpClient
 #-dontwarn org.apache.http.**
