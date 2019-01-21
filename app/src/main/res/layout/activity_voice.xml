@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="anil.appli.call.twilio.calldilly.call.VoiceActivity">
+    tools:context="anil1.appli2.call3.twilio.calldilly.call.VoiceActivity">
 
     <Chronometer
         android:id="@+id/chronometer"
@@ -16,6 +16,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="60sp"
         android:visibility="invisible" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

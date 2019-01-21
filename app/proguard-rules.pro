@@ -20,3 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.twilio.** { *; }
+# Twilio Client
+
+
+# Apache HttpClient
+#-dontwarn org.apache.http.**

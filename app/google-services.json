@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "541947480479",
-    "firebase_url": "https://calldilly.firebaseio.com",
-    "project_id": "calldilly",
-    "storage_bucket": "calldilly.appspot.com"
+    "project_number": "985477051615",
+    "firebase_url": "https://calldilly-51fcc.firebaseio.com",
+    "project_id": "calldilly-51fcc",
+    "storage_bucket": "calldilly-51fcc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:541947480479:android:4e39304c485b306c",
+        "mobilesdk_app_id": "1:985477051615:android:4e39304c485b306c",
         "android_client_info": {
           "package_name": "anil.appli.call.twilio.calldilly"
         }
       },
       "oauth_client": [
         {
-          "client_id": "541947480479-qptss7dntpfn6anbkc6gjes64gnpds9k.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "anil.appli.call.twilio.calldilly",
-            "certificate_hash": "3453be9ae7c1533647f267f9adcba44bd81f895f"
-          }
-        },
-        {
-          "client_id": "541947480479-l2httvmsivt9l0rkeb9if59uk97fvmvf.apps.googleusercontent.com",
+          "client_id": "985477051615-m0pl0sdv1u272o3jv1q5t90q48tjnkcu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDPc2kQCylvNV57vhXQdP6Qal4etHXaR3E"
+          "current_key": "AIzaSyBXeZxl-D5hQfN622XPheNuFgi5RQtRTrE"
         }
       ],
       "services": {
@@ -37,13 +29,101 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "541947480479-l2httvmsivt9l0rkeb9if59uk97fvmvf.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985477051615:android:682f81d9e456380c",
+        "android_client_info": {
+          "package_name": "anil.appli.call.twiliotest.calldilly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985477051615-m0pl0sdv1u272o3jv1q5t90q48tjnkcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXeZxl-D5hQfN622XPheNuFgi5RQtRTrE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985477051615:android:4c15f7b23444418a",
+        "android_client_info": {
+          "package_name": "anil1.appli2.call3.twilio.calldilly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985477051615-m0pl0sdv1u272o3jv1q5t90q48tjnkcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXeZxl-D5hQfN622XPheNuFgi5RQtRTrE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985477051615:android:bfb23b8854fb52b8",
+        "android_client_info": {
+          "package_name": "anile.appli.call.twilio.calldilly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985477051615-m0pl0sdv1u272o3jv1q5t90q48tjnkcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXeZxl-D5hQfN622XPheNuFgi5RQtRTrE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
