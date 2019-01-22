@@ -134,6 +134,7 @@ public class FirstFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), VoiceActivity.class);
                     callNumber = dishPOJO.getNumber();
+                    intent.putExtra("callNumber", dishPOJO.getNumber());
                     startActivity(intent);
                 }
             });

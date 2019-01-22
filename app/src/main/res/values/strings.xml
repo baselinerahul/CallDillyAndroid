@@ -16,6 +16,7 @@
     <string name="hnt_et_work_email">Work Email</string>
     <string name="str_btn_add">Add Contact</string>
     <string name="str_btn_contacts">Contacts List</string>
+    <string name="alert_dialog_two_buttons_title">Test</string>
 
     <string name="turn_speaker_on">Speaker ON</string>
     <string name="callee">client identity or phone number</string>

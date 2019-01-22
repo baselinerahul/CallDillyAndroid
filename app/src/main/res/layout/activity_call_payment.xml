@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".payment.callPayment">
 
-    <com.braintreepayments.cardform.view.CardForm
-        android:id="@+id/bt_card_form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp" />
+    <!--<com.braintreepayments.cardform.view.CardForm-->
+    <!--android:id="@+id/bt_card_form"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="20dp" />-->
 
-    <Button
-        android:id="@+id/checkout_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Checkout" />
+    <!--<Button-->
+    <!--android:id="@+id/checkout_card"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:text="Checkout" />-->
 
 
 </android.support.constraint.ConstraintLayout>

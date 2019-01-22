@@ -57,7 +57,6 @@ public class Login extends AppCompatActivity implements
     private SignInButton btnSignIn;
 
 
-//    ImageView gmailLogin;
     @BindView(R.id.facebooklogin)
     LoginButton facebooklogin;
 
@@ -133,66 +132,14 @@ public class Login extends AppCompatActivity implements
             public void onClick(View v) {
                 if (isValidate()) {
                     UserPOJO userPOJO = new UserPOJO();
-                    userPOJO.setEmail(editTextEmail.getText().toString());
+                    userPOJO.setUsername(editTextEmail.getText().toString());
                     userPOJO.setPassword(editTextPassword.getText().toString());
                     ReqLogin reqLogin = new ReqLogin();
                     reqLogin.execute(MessageType.POST, Common.LoginURL, userPOJO);
                 }
             }
         });
-        //  AccessContact();
-
     }
-
-//    private void AccessContact()
-//    {
-//        List<String> permissionsNeeded = new ArrayList<String>();
-//        final List<String> permissionsList = new ArrayList<String>();
-//        if (!addPermission(permissionsList, android.Manifest.permission.READ_CONTACTS))
-//            permissionsNeeded.add("Read Contacts");
-//        if (!addPermission(permissionsList, android.Manifest.permission.WRITE_CONTACTS))
-//            permissionsNeeded.add("Write Contacts");
-//        if (permissionsList.size() > 0) {
-//            if (permissionsNeeded.size() > 0) {
-//                String message = "You need to grant access to " + permissionsNeeded.get(0);
-//                for (int i = 1; i < permissionsNeeded.size(); i++)
-//                    message = message + ", " + permissionsNeeded.get(i);
-//                showMessageOKCancel(message,
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-//                                        REQUEST_MULTIPLE_PERMISSIONS);
-//                            }
-//                        });
-//                return;
-//            }
-//            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-//                    REQUEST_MULTIPLE_PERMISSIONS);
-//
-//            return;
-//        }
-//
-//    }
-
-//    private boolean addPermission(List<String> permissionsList, String permission) {
-//        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-//            permissionsList.add(permission);
-//
-//            if (!shouldShowRequestPermissionRationale(permission))
-//                return false;
-//        }
-//        return true;
-//    }
-//
-//    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-//        new AlertDialog.Builder(Login.this)
-//                .setMessage(message)
-//                .setPositiveButton("OK", okListener)
-//                .setNegativeButton("Cancel", null)
-//                .create()
-//                .show();
-//    }
 
 
     class ReqLogin extends MessageManager {
@@ -206,7 +153,7 @@ public class Login extends AppCompatActivity implements
                     JSONObject jsonObject = new JSONObject(result);
                     String message = jsonObject.get("message").toString();
                     String sucees = jsonObject.get("success").toString();
-                    if (sucees == "1") {
+                    if (sucees.equalsIgnoreCase("1")) {
                         Intent intent = new Intent(Login.this, MainActivity.class);
                         startActivity(intent);
                     } else {
@@ -215,7 +162,6 @@ public class Login extends AppCompatActivity implements
                 } catch (Exception c) {
                     System.out.println(c);
                 }
-
             }
         }
     }
@@ -281,15 +227,10 @@ public class Login extends AppCompatActivity implements
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
             Log.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
         } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
             showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
@@ -305,11 +246,9 @@ public class Login extends AppCompatActivity implements
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Log.e(TAG, "display name: " + acct.getDisplayName());
             String personName = acct.getDisplayName();
-            //      String personPhotoUrl = acct.getPhotoUrl().toString();
             String email = acct.getEmail();
             Log.e(TAG, "Name: " + personName + ", email: " + email
             );

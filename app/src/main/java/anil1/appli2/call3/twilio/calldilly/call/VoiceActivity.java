@@ -100,63 +100,75 @@ public class VoiceActivity extends AppCompatActivity {
 
     RegistrationListener registrationListener = registrationListener();
     Call.Listener callListener = callListener();
-
+    String callNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+        Intent intent = getIntent();
+        callNumber = intent.getStringExtra("callNumber");
+        // These flags ensure that the activity can be launched when the screen is locked.
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-            // These flags ensure that the activity can be launched when the screen is locked.
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        coordinatorLayout = findViewById(R.id.coordinator_layout);
+        //   callActionFab = findViewById(R.id.call_action_fab);
+        hangupActionFab = findViewById(R.id.hangup_action_fab);
+        muteActionFab = findViewById(R.id.mute_action_fab);
+        chronometer = findViewById(R.id.chronometer);
 
-            coordinatorLayout = findViewById(R.id.coordinator_layout);
-            callActionFab = findViewById(R.id.call_action_fab);
-            hangupActionFab = findViewById(R.id.hangup_action_fab);
-            muteActionFab = findViewById(R.id.mute_action_fab);
-            chronometer = findViewById(R.id.chronometer);
-
-            callActionFab.setOnClickListener(callActionFabClickListener());
-            hangupActionFab.setOnClickListener(hangupActionFabClickListener());
-            muteActionFab.setOnClickListener(muteActionFabClickListener());
-            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            soundPoolManager = SoundPoolManager.getInstance(this);
-            /*
-             * Setup the broadcast receiver to be notified of FCM Token updates
-             * or incoming call invite in this Activity.
-             */
-            voiceBroadcastReceiver = new VoiceBroadcastReceiver();
-            registerReceiver();
-            /*
-             * Needed for setting/abandoning audio focus during a call
-             */
-            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            audioManager.setSpeakerphoneOn(true);
-            /*
-             * Enable changing the volume using the up/down keys during a conversation
-             */
-            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-            /*
-             * Setup the UI
-             */
-            resetUI();
-
-            /*
-             * Displays a call dialog if the intent contains a call invite
-             */
-            handleIncomingCallIntent(getIntent());
-
-            /*
-             * Ensure the microphone permission is enabled
-             */
-            if (!checkPermissionForMicrophone()) {
-                requestPermissionForMicrophone();
-            } else {
-                retrieveAccessToken();
+        //  callActionFab.setOnClickListener(callActionFabClickListener());
+//            hangupActionFab.setOnClickListener(hangupActionFabClickListener());
+//            muteActionFab.setOnClickListener(muteActionFabClickListener());
+        hangupActionFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                disconectCall();
             }
-        //  }
+        });
+        muteActionFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mute();
+            }
+        });
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        soundPoolManager = SoundPoolManager.getInstance(this);
+        /*
+         * Setup the broadcast receiver to be notified of FCM Token updates
+         * or incoming call invite in this Activity.
+         */
+        voiceBroadcastReceiver = new VoiceBroadcastReceiver();
+        registerReceiver();
+        /*
+         * Needed for setting/abandoning audio focus during a call
+         */
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setSpeakerphoneOn(true);
+        /*
+         * Enable changing the volume using the up/down keys during a conversation
+         */
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+        /*
+         * Setup the UI
+         */
+        resetUI();
+
+        /*
+         * Displays a call dialog if the intent contains a call invite
+         */
+        handleIncomingCallIntent(getIntent());
+
+        /*
+         * Ensure the microphone permission is enabled
+         */
+        if (!checkPermissionForMicrophone()) {
+            requestPermissionForMicrophone();
+        } else {
+            retrieveAccessToken();
+        }
 
 
     }
@@ -201,6 +213,9 @@ public class VoiceActivity extends AppCompatActivity {
             public void onConnected(Call call) {
                 setAudioFocus(true);
                 Log.d(TAG, "Connected");
+                chronometer.setVisibility(View.VISIBLE);
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
                 activeCall = call;
             }
 
@@ -222,19 +237,19 @@ public class VoiceActivity extends AppCompatActivity {
      * The UI state when there is an active call
      */
     private void setCallUI() {
-        callActionFab.hide();
+        // callActionFab.hide();
         hangupActionFab.show();
         muteActionFab.show();
-        chronometer.setVisibility(View.VISIBLE);
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
+//        chronometer.setVisibility(View.VISIBLE);
+//        chronometer.setBase(SystemClock.elapsedRealtime());
+//        chronometer.start();
     }
 
     /*
      * Reset UI elements
      */
     private void resetUI() {
-        callActionFab.show();
+        //  callActionFab.show();
         muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
         muteActionFab.hide();
         hangupActionFab.hide();
@@ -284,7 +299,7 @@ public class VoiceActivity extends AppCompatActivity {
         }
     }
 
-    private void registerReceiver() { 
+    private void registerReceiver() {
         if (!isReceiverRegistered) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ACTION_INCOMING_CALL);
@@ -329,19 +344,28 @@ public class VoiceActivity extends AppCompatActivity {
         };
     }
 
-    private DialogInterface.OnClickListener callClickListener() {
-        return new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Place a call
-                EditText contact = (EditText) ((AlertDialog) dialog).findViewById(R.id.contact);
-                twiMLParams.put("to", contact.getText().toString());
-                System.out.println(accessToken);
-                activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
-                setCallUI();
-                alertDialog.dismiss();
-            }
-        };
+//    private DialogInterface.OnClickListener callClickListener() {
+//        return new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // Place a call
+//                EditText contact = (EditText) ((AlertDialog) dialog).findViewById(R.id.contact);
+//                twiMLParams.put("to", contact.getText().toString());
+//                System.out.println(accessToken);
+//                activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
+//                setCallUI();
+//                alertDialog.dismiss();
+//            }
+//        };
+//    }
+
+    public void call(String callNumber) {
+        twiMLParams.put("to", callNumber);
+        System.out.println(accessToken);
+        activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
+        setCallUI();
+        // alertDialog.dismiss();
+
     }
 
     private DialogInterface.OnClickListener cancelCallClickListener() {
@@ -389,18 +413,20 @@ public class VoiceActivity extends AppCompatActivity {
         if (fcmToken != null) {
             Log.i(TAG, "Registering with FCM");
             Voice.register(this, accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
+            call(callNumber);
         }
     }
 
-    private View.OnClickListener callActionFabClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog = createCallDialog(callClickListener(), cancelCallClickListener(), VoiceActivity.this);
-                alertDialog.show();
-            }
-        };
-    }
+//    private View.OnClickListener callActionFabClickListener() {
+//        return new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               // alertDialog = createCallDialog(cancelCallClickListener(), VoiceActivity.this);
+//                alertDialog = createCallDialog(callClickListener(), cancelCallClickListener(), VoiceActivity.this);
+//                alertDialog.show();
+//            }
+//        };
+//    }
 
     private View.OnClickListener hangupActionFabClickListener() {
         return new View.OnClickListener() {
@@ -409,8 +435,16 @@ public class VoiceActivity extends AppCompatActivity {
                 soundPoolManager.playDisconnect();
                 resetUI();
                 disconnect();
+                VoiceActivity.super.onBackPressed();
             }
         };
+    }
+
+    public void disconectCall() {
+        soundPoolManager.playDisconnect();
+        resetUI();
+        disconnect();
+        super.onBackPressed();
     }
 
     private View.OnClickListener muteActionFabClickListener() {
