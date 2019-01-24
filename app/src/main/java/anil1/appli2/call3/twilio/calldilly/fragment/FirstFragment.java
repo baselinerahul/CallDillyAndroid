@@ -1,6 +1,6 @@
 package anil1.appli2.call3.twilio.calldilly.fragment;
 
- 
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class FirstFragment extends Fragment {
     private static ArrayList<Contact_Model> arrayList;
     private static Contact_Adapter adapter;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
-    private static ProgressDialog pd;
+    private static ProgressDialog mProgressDialog;
 
     public FirstFragment() {
     }
@@ -118,6 +118,22 @@ public class FirstFragment extends Fragment {
 
     }
 
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getApplicationContext());
+            mProgressDialog.setMessage("please wait...");
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
     private ArrayList<Contact_Model> readContacts() {
         ArrayList<Contact_Model> contactList = new ArrayList<Contact_Model>();
 
@@ -163,198 +179,4 @@ public class FirstFragment extends Fragment {
         }
         return contactList;
     }
-
-    /*ArrayList<ContactModel> StoreContacts;
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
-    RecyclerView list;
-    private DishAdapter dAdapter;
-    Context context;
-
-    @SuppressLint("ValidFragment")
-    public FirstFragment(Context context) {
-        StoreContacts = new ArrayList<>();
-        this.context = context;
-
-        // showContacts();
-        //
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        System.out.println(StoreContacts.size());
-        EnableRuntimePermission();
-        //  GetContactsIntoArrayList();
-        View view = inflater.inflate(R.layout.fragment_first, container, false);
-        list = (RecyclerView) view.findViewById(R.id.contactList);
-        Button button = (Button) view.findViewById(R.id.topScrol);
-        Button add_Contact = (Button) view.findViewById(R.id.addContact);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LinearLayoutManager layoutManager = (LinearLayoutManager) list
-                        .getLayoutManager();
-                layoutManager.scrollToPositionWithOffset(0, 0);
-
-            }
-        });
-
-        add_Contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddContact.class);
-                startActivity(intent);
-            }
-        });
-        if(StoreContacts.size()>0) {
-            initViews();
-        }
-        return view;
-    }
-
-
-    public void EnableRuntimePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-        } else {
-            // Android version is lesser than 6.0 or the permission is already granted.
-            GetContactsIntoArrayList();
-        }
-
-//        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CONTACTS)) {
-//            Toast.makeText(getApplicationContext(), "CONTACTS permission allows us to Access CONTACTS app", Toast.LENGTH_LONG).show();
-//        } else {
-//            requestPermissions(new String[]{
-//                    Manifest.permission.READ_CONTACTS}, RequestPermissionCode);
-//        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
-        switch (RC) {
-            case RequestPermissionCode:
-                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), "Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
-                    initViews();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
-                }
-                break;
-        }
-    }
-
-    private void initViews() {
-
-        dAdapter = new DishAdapter(getApplicationContext(), StoreContacts);
-        // list.setItemAnimator(new DefaultItemAnimator());
-        list.setAdapter(dAdapter);
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        list.setLayoutManager(mLayoutManager);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        list.setLayoutManager(layoutManager);
-    }
-
-    class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder> {
-
-        private List<ContactModel> dishList;
-        private Context context;
-
-        public class DishViewHolder extends RecyclerView.ViewHolder {
-            public TextView tet1_old, tet2_old;
-            ImageView call;
-
-            public DishViewHolder(View view) {
-                super(view);
-                tet1_old = (TextView) view.findViewById(R.id.contactName);
-                tet2_old = (TextView) view.findViewById(R.id.contactNumber);
-                call = (ImageView) view.findViewById(R.id.callOnThis);
-            }
-        }
-
-        public DishAdapter(Context context, List<ContactModel> dishList) {
-            this.context = context;
-            this.dishList = dishList;
-        }
-
-        private  DishViewHolder holder;
-
-        @Override
-        public  DishViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.singlrcontact, parent, false);
-            return new  DishViewHolder(itemView);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public void onBindViewHolder( DishViewHolder holder, int position) {
-            final ContactModel dishPOJO = dishList.get(position);
-            holder.tet1_old.setText(dishPOJO.getName());
-            holder.tet2_old.setText(dishPOJO.getNumber());
-            holder.call.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), VoiceActivity.class);
-                    callNumber = dishPOJO.getNumber();
-                    intent.putExtra("callNumber", dishPOJO.getNumber());
-                    startActivity(intent);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return dishList.size();
-        }
-    }
-    private void startApp(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(intent, 0);
-    }
-
-    public void GetContactsIntoArrayList() {
-        String lastnumber = "0";
-        ContentResolver cr = getApplicationContext().getContentResolver();
-        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,  ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        if (cursor != null) {
-            try {
-                final int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                final int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                String name, number;
-                while (cursor.moveToNext()) {
-                    name = cursor.getString(nameIndex);
-                    number = cursor.getString(numberIndex).trim();
-                    number = number.replaceAll("\\s", "");
-                    if (number.equals(lastnumber)) {
-
-                    } else {
-                        lastnumber = number;
-                        ContactModel contact = new ContactModel();
-                        contact.setName(name);
-                        contact.setNumber(number);
-                        StoreContacts.add(contact);
-                        System.out.println(StoreContacts.size());
-                    }
-                }
-
-            } finally {
-                cursor.close();
-            }
-          //  initViews();
-        }
-
-    }*/
 }

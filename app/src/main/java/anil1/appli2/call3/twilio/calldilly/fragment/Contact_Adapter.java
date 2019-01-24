@@ -20,9 +20,11 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
+import anil1.appli2.call3.twilio.calldilly.MainActivity;
 import anil1.appli2.call3.twilio.calldilly.R;
 import anil1.appli2.call3.twilio.calldilly.call.VoiceActivity;
 import anil1.appli2.call3.twilio.calldilly.pojo.ContactModel;
+import anil1.appli2.call3.twilio.calldilly.sms.Sms;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -33,13 +35,14 @@ public class Contact_Adapter extends RecyclerView.Adapter<Contact_Adapter.DishVi
 
     public class DishViewHolder extends RecyclerView.ViewHolder {
         public TextView tet1_old;
-        ImageView call, icon;
+        ImageView call, icon, sms;
 
         public DishViewHolder(View view) {
             super(view);
             tet1_old = (TextView) view.findViewById(R.id.contactName);
             //   tet2_old = (TextView) view.findViewById(R.id.contactNumber);
             call = (ImageView) view.findViewById(R.id.callOnThis);
+            sms = (ImageView) view.findViewById(R.id.sendSMS);
             icon = (ImageView) view.findViewById(R.id.gmailitem_letter);
         }
     }
@@ -80,8 +83,14 @@ public class Contact_Adapter extends RecyclerView.Adapter<Contact_Adapter.DishVi
         String letter = String.valueOf(dishPOJO.getContactName().charAt(0));
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor());
-
         holder.icon.setImageDrawable(drawable);
+        holder.sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Sms.class);
+                getApplicationContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

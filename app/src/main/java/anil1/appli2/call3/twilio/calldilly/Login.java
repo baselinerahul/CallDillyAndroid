@@ -231,11 +231,9 @@ public class Login extends AppCompatActivity implements
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
         } else {
-            showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
             });

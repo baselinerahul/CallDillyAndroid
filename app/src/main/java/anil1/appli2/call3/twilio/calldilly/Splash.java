@@ -39,15 +39,13 @@ public class Splash extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent i = new Intent(Splash.this, MainActivity.class);
+                    Intent i = new Intent(Splash.this, Login.class);
                     startActivity(i);
                     finish();
                 }
 
             }, 3000);
-
         }
-
     }
 
 
@@ -77,75 +75,17 @@ public class Splash extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent(Splash.this, MainActivity.class);
+                        Intent i = new Intent(Splash.this, Login.class);
                         startActivity(i);
                         finish();
                     }
-
                 }, 2000);
-
             } else {
                 // Permission Denied
                 Toast.makeText(Splash.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
                         .show();
-
                 finish();
             }
-
         }
     }
-
-
-//    public void EnableRuntimePermission() {
-//        if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                Splash.this,
-//                Manifest.permission.READ_CONTACTS)) {
-//            Toast.makeText(Splash.this, "CONTACTS permission allows us to Access CONTACTS app", Toast.LENGTH_LONG).show();
-//        } else {
-//            ActivityCompat.requestPermissions(Splash.this, new String[]{
-//                    Manifest.permission.READ_CONTACTS}, RequestPermissionCode);
-//            new Handler().postDelayed(new Runnable() {
-//
-//                /*
-//                 * Showing splash screen with a timer. This will be useful when you
-//                 * want to show case your app logo / company
-//                 */
-//
-//                @Override
-//                public void run() {
-//                    Intent i = new Intent(Splash.this, MainActivity.class);
-//                    startActivity(i);
-//                    finish();
-//                }
-//            }, SPLASH_TIME_OUT);
-//        }
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
-//        switch (RC) {
-//            case RequestPermissionCode:
-//                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(Splash.this, "Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
-//                    new Handler().postDelayed(new Runnable() {
-//
-//                        /*
-//                         * Showing splash screen with a timer. This will be useful when you
-//                         * want to show case your app logo / company
-//                         */
-//
-//                        @Override
-//                        public void run() {
-//                            Intent i = new Intent(Splash.this, MainActivity.class);
-//                            startActivity(i);
-//                            finish();
-//                        }
-//                    }, SPLASH_TIME_OUT);
-//                } else {
-//                    Toast.makeText(Splash.this, "Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
-//                }
-//                break;
-//        }
-//    }
-
 }

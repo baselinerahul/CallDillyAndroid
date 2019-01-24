@@ -114,7 +114,6 @@ public class VoiceActivity extends AppCompatActivity {
 //                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         coordinatorLayout = findViewById(R.id.coordinator_layout);
-        //   callActionFab = findViewById(R.id.call_action_fab);
         hangupActionFab = findViewById(R.id.hangup_action_fab);
         muteActionFab = findViewById(R.id.mute_action_fab);
         chronometer = findViewById(R.id.chronometer);
@@ -134,14 +133,14 @@ public class VoiceActivity extends AppCompatActivity {
                 mute();
             }
         });
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //  notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         soundPoolManager = SoundPoolManager.getInstance(this);
         /*
          * Setup the broadcast receiver to be notified of FCM Token updates
          * or incoming call invite in this Activity.
          */
         voiceBroadcastReceiver = new VoiceBroadcastReceiver();
-        registerReceiver();
+        //   registerReceiver();
         /*
          * Needed for setting/abandoning audio focus during a call
          */
@@ -159,7 +158,7 @@ public class VoiceActivity extends AppCompatActivity {
         /*
          * Displays a call dialog if the intent contains a call invite
          */
-        handleIncomingCallIntent(getIntent());
+        // handleIncomingCallIntent(getIntent());
 
         /*
          * Ensure the microphone permission is enabled
