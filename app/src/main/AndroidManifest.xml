@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <protected-broadcast android:name="com.motorola.motocare.INTENT_TRIGGER" />
 
     <application

@@ -108,10 +108,10 @@ public class VoiceActivity extends AppCompatActivity {
         Intent intent = getIntent();
         callNumber = intent.getStringExtra("callNumber");
         // These flags ensure that the activity can be launched when the screen is locked.
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        Window window = getWindow();
+//        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+//                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+//                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         //   callActionFab = findViewById(R.id.call_action_fab);
@@ -245,6 +245,7 @@ public class VoiceActivity extends AppCompatActivity {
 //        chronometer.start();
     }
 
+
     /*
      * Reset UI elements
      */
@@ -273,6 +274,15 @@ public class VoiceActivity extends AppCompatActivity {
     public void onDestroy() {
         soundPoolManager.release();
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        soundPoolManager.playDisconnect();
+        resetUI();
+        disconnect();
+        super.onBackPressed();
+
     }
 
     private void handleIncomingCallIntent(Intent intent) {

@@ -272,7 +272,6 @@ public class Login extends AppCompatActivity implements
             mProgressDialog.setMessage("please wait...");
             mProgressDialog.setIndeterminate(true);
         }
-
         mProgressDialog.show();
     }
 

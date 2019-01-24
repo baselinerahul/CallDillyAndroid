@@ -4,9 +4,9 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "anil1.appli2.call3.twilio.calldilly"
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 27
-        versionCode 1
+         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -68,7 +68,9 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     implementation 'com.koushikdutta.ion:ion:2.1.8'
     compile 'com.braintreepayments:card-form:3.3.0'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation 'com.stripe:stripe-android:6.1.2'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
 }
 apply plugin: 'com.google.gms.google-services'
